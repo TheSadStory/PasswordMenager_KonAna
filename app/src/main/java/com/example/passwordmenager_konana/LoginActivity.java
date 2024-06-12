@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 boolean b = db.loginUser(user, passwordHashed);
 
                 if(b == true){
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, PinActivity.class);
                     int userID = db.getUserId(user); //our Method that gets our ID
 
                     intent.putExtra("useridKey",userID);//
