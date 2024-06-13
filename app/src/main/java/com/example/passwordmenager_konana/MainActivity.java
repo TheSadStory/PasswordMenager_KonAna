@@ -1,9 +1,15 @@
 package com.example.passwordmenager_konana;
 
+import static android.content.ContentValues.TAG;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -45,21 +51,43 @@ public class MainActivity extends AppCompatActivity {
         int userID = getIntent().getIntExtra("useridKey",-1);
         userText.setText("user ID: "+userID);
 
-        String pin = getIntent().getStringExtra("userpin");
+        String pin = getIntent().getStringExtra("userPin");
+
+
 
 
 
         Cursor cursor = DatabaseHelper.getData(userID);
 
-
         String[] seeData = {"PlatformName", "Username", "Password"};
-        int[] DatafromID = {R.id.seePlattform,R.id.seeUsername,R.id.seePassword}; //ka wieso int, string hat fehler angezeigt
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,R.layout.activity_list, cursor,seeData,DatafromID,0){
 
+        int[] DatafromID = {R.id.seePlattform,R.id.seeUsername,R.id.seePassword}; //ka wieso int, string hat fehler angezeigt
+
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,R.layout.activity_list, cursor,seeData,DatafromID,0){
+            //HERE DECRYPTING HAPPENS
+                @Override
+                public void bindView(View view, Context context, Cursor cursor) {
+                    super.bindView(view, context, cursor);
+                    // Decrypt the password
+                    TextView passwordTextView = view.findViewById(R.id.seePassword);
+                    @SuppressLint("Range") String encryptedPassword = cursor.getString(cursor.getColumnIndex("Password"));
+                        try {
+                                byte[] decodedData = Base64.decode(encryptedPassword, Base64.DEFAULT);
+                                String decryptedText = EncryptionHelper.decrypt(decodedData, pin);
+                                Log.d(TAG, "Decrypted Text: " + decryptedText);
+                                passwordTextView.setText(decryptedText);
+                            }
+                            catch (Exception e){
+                                System.out.println("problem with encryption");
+                            }
+
+                }
+            //HERE DECRYPTING ENDS
         };
+
         Liste.setAdapter(adapter);
 
-        System.out.println(pin);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

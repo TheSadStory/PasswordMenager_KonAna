@@ -43,7 +43,7 @@ public class PinActivity extends AppCompatActivity {
 
         loginToMain = findViewById(R.id.loginToMain);
         userText = findViewById(R.id.userText);
-        userPin = findViewById(R.id.userPin);
+        userPin = findViewById(R.id.userPinInput);
         DatabaseHelper = new databaseHelper(this);
 
         //we bring our userID we sent here
