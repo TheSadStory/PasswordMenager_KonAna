@@ -11,8 +11,10 @@ import androidx.annotation.Nullable;
 public class databaseHelper extends SQLiteOpenHelper {
 
 
+
     public databaseHelper(@Nullable Context context) {
         super(context, "users.db", null, 1);
+
     }
 
     @Override
@@ -76,6 +78,9 @@ public class databaseHelper extends SQLiteOpenHelper {
         cv.put("Username", userData.getUsername());
         cv.put("Password", userData.getPassword());
         cv.put("userID", userData.getUserID());
+
+
+
         long insert = db.insert("user_data", null, cv);
         if (insert == -1) {
             return false;

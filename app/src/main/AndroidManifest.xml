@@ -16,6 +16,9 @@
         android:theme="@style/Theme.PasswordMenager_KonAna"
         tools:targetApi="31">
         <activity
+            android:name=".PinActivity"
+            android:exported="false" />
+        <activity
             android:name=".listActivity"
             android:exported="false" />
         <activity
