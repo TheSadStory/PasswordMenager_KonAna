@@ -51,6 +51,14 @@ public class SignActivity extends AppCompatActivity {
                 UserTable userTable;
                 //checks if the username already exist
                 databaseHelper db = new databaseHelper(SignActivity.this);
+
+                //test if no password in input
+
+                if (passwordET.getText().toString().equals("")) {
+                    Toast.makeText(SignActivity.this, "Put in password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (db.checkUserExists(usernameET.getText().toString())) {
                     Toast.makeText(SignActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
                     return;
